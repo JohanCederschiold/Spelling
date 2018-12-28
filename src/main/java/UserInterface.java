@@ -1,36 +1,49 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
 
 public class UserInterface extends JFrame {
 	
 	
+//	Components 
 	private JButton startGame;
 	private JButton playWord;
 	private JLabel [] alphabet;
+	private Border border = new LineBorder(Color.black, 2);
+	private JLabel progress;
+	
+//	Containers
 	private JPanel letterPanel;
+	private JPanel keysAndLabels;
+	
+//	Gamecomponents
 	private String [] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
 			"N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Å", "Ä", "Ö"	};
 	private Game game;
+
+	
 	
 
 	public UserInterface () {
 		
 		game = new Game();
-		
-		
-		
-		
+
 		setLayout(new BorderLayout());
 		add(letterPanel = new JPanel(), BorderLayout.CENTER);
+		add(keysAndLabels = new JPanel(), BorderLayout.NORTH);
 		letterPanel.setPreferredSize(new Dimension(1700, 900));
 		alphabet = new JLabel [letters.length];
 		
@@ -41,9 +54,18 @@ public class UserInterface extends JFrame {
 			alphabet[i].addMouseListener(l);
 		}
 		
-//		Add buttons
-		playWord = new JButton("Spela upp ordet"); add(playWord, BorderLayout.NORTH);
+		
+//		Add buttons & components
+		playWord = new JButton("Spela upp ordet"); 
+		keysAndLabels.add(playWord);
+		progress = new JLabel(""); 
+		upDateProgress();
+		keysAndLabels.add(progress);
+		
+		
+//		Add listeners
 		playWord.addActionListener(e -> game.playWord());
+		
 
 		
 		pack();
@@ -59,16 +81,31 @@ public class UserInterface extends JFrame {
 		
 		public void mouseReleased(MouseEvent e) {
 			
-			for (int i = 0 ; i < letters.length ; i++ ) {
-				if (e.getSource() == alphabet[i] ) {
-//					System.out.println(letters[i] + " pressed");
-					game.checkLetter(letters[i]);
+			if (!game.getIsWin()) {
+				for (int i = 0 ; i < letters.length ; i++ ) {
+					alphabet[i].setBorder(null);
+					if (e.getSource() == alphabet[i] ) {
+						game.checkLetter(letters[i]);
+						alphabet[i].setBorder(border);
+					}
+				}
+				
+				upDateProgress();
+				
+				if (game.getIsWin()) {
+					game.playApplause();
 				}
 			}
+			
+
 			
 		}; 
 
 	};
+	
+	public void upDateProgress () {
+		progress.setText(String.format("Ordet: %s", game.getWordSoFar()));
+	}
 	
 	
 }

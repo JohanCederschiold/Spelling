@@ -7,6 +7,7 @@ public class Game {
 	private String correctSoFar;
 	private Sounds appl;
 	private Sounds sayWord;
+	private boolean isWin;
 	
 	public Game() {
 		
@@ -20,6 +21,7 @@ public class Game {
 	
 	public void getNewWord ()  {
 		
+		isWin = false;
 		correctSoFar = "";
 		currentWord = dictionary.getRandomWord();
 		
@@ -33,7 +35,7 @@ public class Game {
 		if (letter.equalsIgnoreCase(currentWord.substring(correctSoFar.length(), correctSoFar.length()+1))) {
 			correctSoFar += currentWord.substring(correctSoFar.length(), correctSoFar.length()+1);
 			if (correctSoFar.equalsIgnoreCase(currentWord)) {
-				appl.playClip();
+				isWin = true;
 			}
 			
 		}
@@ -42,6 +44,18 @@ public class Game {
 	
 	public void playWord () {
 		sayWord.playClip();		
+	}
+	
+	public String getWordSoFar () {
+		return correctSoFar;
+	}
+	
+	public boolean getIsWin () {
+		return isWin;
+	}
+	
+	public void playApplause () {
+		appl.playClip();
 	}
 
 
