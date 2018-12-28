@@ -23,26 +23,28 @@ public class Dictionary {
 	}
 	
 	
+//	Choose a random word from the ArrayList
 	public String getRandomWord () {
 		Random slump = new Random();
-		
-		return words.get(slump.nextInt(words.size()));
+		String fetchedWord = words.get(slump.nextInt(words.size()));
+		removeWord(fetchedWord);
+		return fetchedWord;
 				
 	}
 	
-	
+//	Are there any words left
 	public boolean isWordsLeft () {
 		return !words.isEmpty();
 	}
  	
 	
-	
+//	Remove word from the list
 	public void removeWord (String word ) {
 		words.remove(word);
 	}
 	
 
-	
+//	Make a uri path from the txt file in the resources folder. 
 	private void convertFile () {
 		
 		try {
@@ -53,8 +55,9 @@ public class Dictionary {
 	}
 	
 	
+//	Reads words from textfile and adds them to array 
+//	This is only done once (when instantiating the Dictionary).
 	private List<String> readWords () {
-//		Reads words from textfile and adds them to array.
 		List<String> readWords = new ArrayList<>();
 		
 		try {

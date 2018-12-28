@@ -3,57 +3,46 @@ import java.util.Scanner;
 public class Game {
 	
 	private Dictionary dictionary;
-	private Scanner scanner;
+	private String currentWord;
+	private String correctSoFar;
+	private Sounds appl;
+	private Sounds sayWord;
 	
 	public Game() {
 		
-		scanner = new Scanner(System.in);
-		
-	}
-	
-	public void gameRound() {
-		
 		dictionary = new Dictionary();
-		
-
+		appl = new Sounds("applause");
+		getNewWord();
 		
 	}
+
 	
 	
-	public void wordRound ()  {
+	public void getNewWord ()  {
 		
-		Sounds appl = new Sounds("applause");
+		correctSoFar = "";
+		currentWord = dictionary.getRandomWord();
 		
-		Spellword spellword = new Spellword(dictionary.getRandomWord());
-		String currentLetter = "";
-		
-		Sounds sayWord = new Sounds(spellword.getWord());
+		sayWord = new Sounds(currentWord);
 		sayWord.playClip();
+
+	}
+	
+	public void checkLetter (String letter) {
 		
-		for (int i = 0 ; i < spellword.getWordLength();  i++) {
-			System.out.println("Skriv en bokstav");
-			do  {
-				currentLetter = scanner.nextLine().substring(0, 1);
-			} while (!spellword.getWord().substring(i, i+1).equals(currentLetter));
-			System.out.println("Rätt");
-			spelloutWordSoFar(spellword.getWord(), i);
+		if (letter.equalsIgnoreCase(currentWord.substring(correctSoFar.length(), correctSoFar.length()+1))) {
+			correctSoFar += currentWord.substring(correctSoFar.length(), correctSoFar.length()+1);
+			if (correctSoFar.equalsIgnoreCase(currentWord)) {
+				appl.playClip();
+			}
+			
 		}
 		
-		System.out.println("Du klarade ordet");
-		appl.playClip();
-		
-		
-		
-		
-
-		
 	}
 	
-	public void spelloutWordSoFar (String word, int position) {
-		String wordSoFar = word.substring(0, position+1);
-		System.out.println(wordSoFar);
+	public void playWord () {
+		sayWord.playClip();		
 	}
-	
 
 
 }

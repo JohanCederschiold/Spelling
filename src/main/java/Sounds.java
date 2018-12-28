@@ -12,6 +12,10 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Sounds {
 	
+	/*	This class creates sounds from the resources folder. The constructor takes the 
+	 *  name of the file as a string. 
+	 */
+	
 	private URL url;
 	private AudioInputStream ais;
 	private Clip clip;
