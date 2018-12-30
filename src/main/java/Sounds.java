@@ -64,9 +64,9 @@ public class Sounds {
 	}
 	
 	public void closeClip () {
+//		The method is called when a resource is open to close it. 
 		if (clip.isOpen()) {
 			clip.close();
-			System.out.println("Clip closed");
 		}
 	
 	}

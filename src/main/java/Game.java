@@ -14,12 +14,8 @@ public class Game {
 		dictionary = new Dictionary();
 		appl = new Sounds("applause");
 		isWin = false;
-//		getNewWord();
-
 		
 	}
-
-
 	
 	
 	public void getNewWord ()  {
