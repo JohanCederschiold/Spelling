@@ -48,12 +48,12 @@ public class UserInterface extends JFrame {
 		setLayout(new BorderLayout());
 		add(letterPanel = new JPanel(), BorderLayout.CENTER);
 		add(keysAndLabels = new JPanel(), BorderLayout.NORTH);
-		letterPanel.setPreferredSize(new Dimension(1700, 900));
+		letterPanel.setPreferredSize(new Dimension(1700, 600));
 		alphabet = new JLabel [letters.length];
 		
 //		Add letters
 		for (int i = 0; i < letters.length ; i++ ) {
-			alphabet[i] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("\\letters\\" + letters[i]+".png")));
+			alphabet[i] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("letters/" + letters[i]+".jpg")));
 			letterPanel.add(alphabet[i]);
 			alphabet[i].addMouseListener(l);
 		}
@@ -130,6 +130,7 @@ public class UserInterface extends JFrame {
 		
 		if (!game.moreWords()) {
 			progress.setText("No more words");
+			getNextWord.setEnabled(false);
 		}
 
 	}

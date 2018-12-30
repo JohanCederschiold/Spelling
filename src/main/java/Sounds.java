@@ -41,7 +41,7 @@ public class Sounds {
 	private void createUrl(String wordToSound) {
 		
 		try {
-			url = new URL(getClass().getClassLoader().getResource("\\audio\\" + wordToSound + ".wav").toExternalForm());
+			url = new URL(getClass().getClassLoader().getResource("audio/" + wordToSound + ".wav").toExternalForm());
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
