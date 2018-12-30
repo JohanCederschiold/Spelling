@@ -14,7 +14,7 @@ public class Game {
 		dictionary = new Dictionary();
 		appl = new Sounds("applause");
 		isWin = false;
-		getNewWord();
+//		getNewWord();
 
 		
 	}
@@ -62,7 +62,8 @@ public class Game {
 	}
 	
 	public void playApplause () {
-		appl.playClip();
+		Applause applause = new Applause();
+		applause.thread.start();
 	}
 	
 	public boolean moreWords () {

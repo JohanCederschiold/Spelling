@@ -16,9 +16,9 @@ public class Sounds {
 	 *  name of the file as a string. 
 	 */
 	
-	private URL url;
-	private AudioInputStream ais;
-	private Clip clip;
+	protected URL url;
+	protected AudioInputStream ais;
+	protected Clip clip;
 	
 	public Sounds (String word) {
 		

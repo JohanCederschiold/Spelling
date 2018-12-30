@@ -1,4 +1,4 @@
-
+/*
 public class Spellword {
 	
 	private String wordToSpell;
@@ -18,3 +18,4 @@ public class Spellword {
 	}
 
 }
+*/

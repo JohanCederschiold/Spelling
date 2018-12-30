@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -21,8 +22,10 @@ public class UserInterface extends JFrame {
 //	Components 
 	private JButton startGame;
 	private JButton playWord;
+	private JButton getNextWord;
 	private JLabel [] alphabet;
 	private Border border = new LineBorder(Color.black, 2);
+	private Font font = new Font("Arial Black", Font.BOLD, 18);
 	private JLabel progress;
 	
 //	Containers
@@ -40,6 +43,7 @@ public class UserInterface extends JFrame {
 	public UserInterface () {
 		
 		game = new Game();
+		setTitle("Stavnings-spel");
 
 		setLayout(new BorderLayout());
 		add(letterPanel = new JPanel(), BorderLayout.CENTER);
@@ -58,13 +62,20 @@ public class UserInterface extends JFrame {
 //		Add buttons & components
 		playWord = new JButton("Spela upp ordet"); 
 		keysAndLabels.add(playWord);
+		playWord.setEnabled(false);
+		getNextWord = new JButton("Få nytt ord");
+		keysAndLabels.add(getNextWord);
 		progress = new JLabel(""); 
+		progress.setFont(font);
 		upDateProgress();
 		keysAndLabels.add(progress);
 		
 		
 //		Add listeners
 		playWord.addActionListener(e -> game.playWord());
+		getNextWord.addActionListener(e -> getNewWord());
+		
+		
 		
 
 		
@@ -85,8 +96,8 @@ public class UserInterface extends JFrame {
 				for (int i = 0 ; i < letters.length ; i++ ) {
 					alphabet[i].setBorder(null);
 					if (e.getSource() == alphabet[i] ) {
-						game.checkLetter(letters[i]);
 						alphabet[i].setBorder(border);
+						game.checkLetter(letters[i]);
 					}
 					
 				}
@@ -95,7 +106,7 @@ public class UserInterface extends JFrame {
 				
 				
 				if (game.getIsWin()) {
-
+					upDateProgress();
 					gameWon();
 
 				}
@@ -113,15 +124,22 @@ public class UserInterface extends JFrame {
 	
 	public void gameWon () {
 		
-//		TODO: Try putting the applaus in separate class and thread it.
-
-//		game.playApplause();
-		if (game.moreWords()) {
-			game.getNewWord();
-			upDateProgress();
-		} else {
-//			game.playApplause();
+		playWord.setEnabled(false);
+		getNextWord.setEnabled(true);
+		game.playApplause();
+		
+		if (!game.moreWords()) {
+			progress.setText("No more words");
 		}
+
+	}
+	
+	public void getNewWord () {
+		
+		game.getNewWord();
+		upDateProgress();
+		playWord.setEnabled(true);
+		getNextWord.setEnabled(false);
 	}
 	
 	
