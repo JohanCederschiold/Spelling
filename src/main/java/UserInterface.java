@@ -53,7 +53,7 @@ public class UserInterface extends JFrame {
 		
 //		Add letters
 		for (int i = 0; i < letters.length ; i++ ) {
-			alphabet[i] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource(letters[i]+".png")));
+			alphabet[i] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("\\letters\\" + letters[i]+".png")));
 			letterPanel.add(alphabet[i]);
 			alphabet[i].addMouseListener(l);
 		}
