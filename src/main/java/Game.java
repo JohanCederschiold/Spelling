@@ -13,13 +13,20 @@ public class Game {
 		
 		dictionary = new Dictionary();
 		appl = new Sounds("applause");
+		isWin = false;
 		getNewWord();
+
 		
 	}
+
 
 	
 	
 	public void getNewWord ()  {
+		
+		if (sayWord != null) {
+			sayWord.closeClip();
+		}
 		
 		isWin = false;
 		correctSoFar = "";
@@ -56,6 +63,10 @@ public class Game {
 	
 	public void playApplause () {
 		appl.playClip();
+	}
+	
+	public boolean moreWords () {
+		return dictionary.isWordsLeft();
 	}
 
 

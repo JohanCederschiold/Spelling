@@ -23,7 +23,19 @@ public class Sounds {
 	public Sounds (String word) {
 		
 		createUrl(word);
-
+		
+		try {
+			ais = AudioSystem.getAudioInputStream(url);
+			clip = AudioSystem.getClip();
+			clip.open(ais);
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException lua) {
+			lua.printStackTrace();
+		}
+		
 	}
 	
 	private void createUrl(String wordToSound) {
@@ -39,31 +51,25 @@ public class Sounds {
 	public void playClip () {
 		
 		try {
-			ais = AudioSystem.getAudioInputStream(url);
-			clip = AudioSystem.getClip();
-			clip.open(ais);
-			System.out.println("finished");
-		} catch (UnsupportedAudioFileException e) {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (LineUnavailableException lua) {
-			lua.printStackTrace();
 		}
-		
-		System.out.println("called");
-		clip.start();
 
-		do  {
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		} while (clip.isActive());
+		clip.start();
 		
-		clip.close();
+//		This method "resets" the clip to zero. 
+		clip.setMicrosecondPosition(0);
 
 	}
+	
+	public void closeClip () {
+		if (clip.isOpen()) {
+			clip.close();
+			System.out.println("Clip closed");
+		}
+	
+	}
+	
 
 }

@@ -88,12 +88,16 @@ public class UserInterface extends JFrame {
 						game.checkLetter(letters[i]);
 						alphabet[i].setBorder(border);
 					}
+					
 				}
-				
 				upDateProgress();
 				
+				
+				
 				if (game.getIsWin()) {
-					game.playApplause();
+
+					gameWon();
+
 				}
 			}
 			
@@ -105,6 +109,19 @@ public class UserInterface extends JFrame {
 	
 	public void upDateProgress () {
 		progress.setText(String.format("Ordet: %s", game.getWordSoFar()));
+	}
+	
+	public void gameWon () {
+		
+//		TODO: Try putting the applaus in separate class and thread it.
+
+//		game.playApplause();
+		if (game.moreWords()) {
+			game.getNewWord();
+			upDateProgress();
+		} else {
+//			game.playApplause();
+		}
 	}
 	
 	
