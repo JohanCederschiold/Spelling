@@ -26,6 +26,7 @@ public class UserInterface extends JFrame {
 	private JButton getNextWord;
 	private JLabel [] alphabet;
 	private Border border = new LineBorder(Color.black, 2);
+	private Border noBorder = new LineBorder(Color.LIGHT_GRAY, 2);
 	private Font font = new Font("Arial Black", Font.BOLD, 18);
 	private JLabel progress;
 	
@@ -56,6 +57,7 @@ public class UserInterface extends JFrame {
 		for (int i = 0; i < letters.length ; i++ ) {
 			alphabet[i] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("letters/" + letters[i]+".jpg")));
 			letterPanel.add(alphabet[i]);
+			alphabet[i].setBorder(noBorder);
 			alphabet[i].addMouseListener(l);
 		}
 		
@@ -81,9 +83,7 @@ public class UserInterface extends JFrame {
 		quitGame.addActionListener(e -> quitGame());
 		
 		
-		
-
-		
+//		Final settings
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -97,9 +97,10 @@ public class UserInterface extends JFrame {
 		
 		public void mouseReleased(MouseEvent e) {
 			
+//			If the game is not already won: Neutralize all borders and highlight the chosen letter. 
 			if (!game.getIsWin()) {
 				for (int i = 0 ; i < letters.length ; i++ ) {
-					alphabet[i].setBorder(null);
+					alphabet[i].setBorder(noBorder);
 					if (e.getSource() == alphabet[i] ) {
 						alphabet[i].setBorder(border);
 						game.checkLetter(letters[i]);
@@ -109,7 +110,7 @@ public class UserInterface extends JFrame {
 				upDateProgress();
 				
 				
-				
+//				Check if the game is won.
 				if (game.getIsWin()) {
 					upDateProgress();
 					gameWon();
@@ -159,6 +160,7 @@ public class UserInterface extends JFrame {
 	
 	public void gameWon () {
 		
+//		Change status of buttons
 		playWord.setEnabled(false);
 		getNextWord.setEnabled(true);
 		game.playApplause();

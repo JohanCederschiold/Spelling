@@ -20,10 +20,12 @@ public class Game {
 	
 	public void getNewWord ()  {
 		
+//		If this is not the first word this will close the clip (of the previous word).
 		if (sayWord != null) {
 			sayWord.closeClip();
 		}
 		
+//		Reset win (i.e. the word is not correctly guessed). Also reset feedback string and get new random word. 
 		isWin = false;
 		correctSoFar = "";
 		currentWord = dictionary.getRandomWord();
