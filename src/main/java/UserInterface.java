@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
@@ -20,7 +21,7 @@ public class UserInterface extends JFrame {
 	
 	
 //	Components 
-	private JButton startGame;
+	private JButton quitGame;
 	private JButton playWord;
 	private JButton getNextWord;
 	private JLabel [] alphabet;
@@ -69,11 +70,15 @@ public class UserInterface extends JFrame {
 		progress.setFont(font);
 		upDateProgress();
 		keysAndLabels.add(progress);
+		quitGame = new JButton("Avsluta spelet");
+		quitGame.setBackground(Color.RED);
+		keysAndLabels.add(quitGame);
 		
 		
 //		Add listeners
 		playWord.addActionListener(e -> game.playWord());
 		getNextWord.addActionListener(e -> getNewWord());
+		quitGame.addActionListener(e -> quitGame());
 		
 		
 		
@@ -119,7 +124,37 @@ public class UserInterface extends JFrame {
 	};
 	
 	public void upDateProgress () {
-		progress.setText(String.format("Ordet: %s", game.getWordSoFar()));
+		
+		String result = "";
+		
+//		Check if word is null and only present whitespace in that case. 
+		if (game.getWordSoFar() == null ) {
+			result += fillOutWord();
+		} else {
+			result += game.getWordSoFar() + fillOutWord();
+		}
+		progress.setText(String.format("Ordet: %s", result ));
+	}
+	
+	
+	private String fillOutWord () {
+		
+//		Method fills out string with space to improve UI visuals
+		
+		int currentWordLength = 0;
+		
+		if (game.getWordSoFar() != null ) {
+			currentWordLength = game.getWordSoFar().length();
+		}
+
+		int defaultLength = 30;
+		String space = "";
+		
+		for (int i = 0 ; i < (defaultLength - currentWordLength ); i++ ) {
+			space += " ";
+		}
+		
+		return space;
 	}
 	
 	public void gameWon () {
@@ -127,6 +162,7 @@ public class UserInterface extends JFrame {
 		playWord.setEnabled(false);
 		getNextWord.setEnabled(true);
 		game.playApplause();
+		presentWord();
 		
 		if (!game.moreWords()) {
 			progress.setText("No more words");
@@ -137,10 +173,30 @@ public class UserInterface extends JFrame {
 	
 	public void getNewWord () {
 		
+//		The player has asked to get a new word. 
 		game.getNewWord();
 		upDateProgress();
 		playWord.setEnabled(true);
 		getNextWord.setEnabled(false);
+	}
+	
+	public void presentWord () {
+//		The player spelled the word and gets the word presented again. 
+		String html = "<html><body><h1 style=\"font-size:300%;\">";
+		html += game.getWordSoFar().toUpperCase();
+		html += "</h1></body></html>";
+		game.playWord();
+		JOptionPane.showMessageDialog(null, html, "Du klarade ordet", JOptionPane.PLAIN_MESSAGE);
+	}
+	
+	public void quitGame() {
+//		Player pressed quit game. Below the player is asked to confirm the choice to quit. 
+		String [] customOptions = {"Ja tack", "Nej fortsätt spela"};
+		int choice = JOptionPane.showOptionDialog(null, "Vill du avsluta?", "Avsluta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, customOptions, customOptions[1] );
+		if (choice == 0 ) {
+			System.exit(0);
+		}
+		
 	}
 	
 	

@@ -20,3 +20,7 @@ Krokodil
 Barbiedocka
 Filt
 Ambulans
+Flygplan
+Princessa
+Fotboll
+Ryggsäck
