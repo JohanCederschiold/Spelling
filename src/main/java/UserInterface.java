@@ -168,6 +168,7 @@ public class UserInterface extends JFrame {
 		
 		if (!game.moreWords()) {
 			progress.setText("No more words");
+			game.closeCurrentClip();
 			getNextWord.setEnabled(false);
 		}
 
@@ -196,6 +197,7 @@ public class UserInterface extends JFrame {
 		String [] customOptions = {"Ja tack", "Nej fortsätt spela"};
 		int choice = JOptionPane.showOptionDialog(null, "Vill du avsluta?", "Avsluta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, customOptions, customOptions[1] );
 		if (choice == 0 ) {
+			game.closeCurrentClip();
 			System.exit(0);
 		}
 		

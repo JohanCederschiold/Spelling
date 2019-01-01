@@ -22,7 +22,7 @@ public class Game {
 		
 //		If this is not the first word this will close the clip (of the previous word).
 		if (sayWord != null) {
-			sayWord.closeClip();
+			closeCurrentClip();
 		}
 		
 //		Reset win (i.e. the word is not correctly guessed). Also reset feedback string and get new random word. 
@@ -51,10 +51,12 @@ public class Game {
 		sayWord.playClip();		
 	}
 	
+//	Get the current status of the guessed word. 
 	public String getWordSoFar () {
 		return correctSoFar;
 	}
 	
+//	Is the word correctly guessed. 
 	public boolean getIsWin () {
 		return isWin;
 	}
@@ -64,8 +66,16 @@ public class Game {
 		applause.thread.start();
 	}
 	
+//	Are there more words
 	public boolean moreWords () {
 		return dictionary.isWordsLeft();
+	}
+	
+//	Method that enables to close the current clip (if open).
+	public void closeCurrentClip() {
+		if ( sayWord != null) {
+			sayWord.closeClip();
+		}	
 	}
 
 
