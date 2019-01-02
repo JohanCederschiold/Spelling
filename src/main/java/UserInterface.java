@@ -27,6 +27,7 @@ public class UserInterface extends JFrame {
 	private JLabel [] alphabet;
 	private Border border = new LineBorder(Color.black, 2);
 	private Border noBorder = new LineBorder(Color.LIGHT_GRAY, 2);
+	private Border hintBorder = new LineBorder(Color.GREEN, 2);
 	private Font font = new Font("Arial Black", Font.BOLD, 18);
 	private JLabel progress;
 	
@@ -105,23 +106,20 @@ public class UserInterface extends JFrame {
 						alphabet[i].setBorder(border);
 						game.checkLetter(letters[i]);
 					}
-					
 				}
-				upDateProgress();
-				
+				upDateProgress();		
 				
 //				Check if the game is won.
 				if (game.getIsWin()) {
 					upDateProgress();
 					gameWon();
-
+				} else {
+					if (game.getWrongGuesses() > 2 ) {
+						giveHint();
+					}
 				}
-			}
-			
-
-			
+			}	
 		}; 
-
 	};
 	
 	public void upDateProgress () {
@@ -201,6 +199,17 @@ public class UserInterface extends JFrame {
 			System.exit(0);
 		}
 		
+	}
+	
+	public void giveHint () {
+//		This method will give the player at hint. 
+		String letterToHighlight = game.getCurrentWord().substring(game.getWordSoFar().length(), game.getWordSoFar().length() + 1).toUpperCase();
+		for (int i = 0 ; i < letters.length ; i++) {
+			if (letters[i].equals(letterToHighlight)) {
+				alphabet[i].setBorder(hintBorder);
+			}
+		}
+
 	}
 	
 	

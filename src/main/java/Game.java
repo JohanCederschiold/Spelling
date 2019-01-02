@@ -3,11 +3,12 @@ import java.util.Scanner;
 public class Game {
 	
 	private Dictionary dictionary;
-	private String currentWord;
-	private String correctSoFar;
-	private Sounds appl;
-	private Sounds sayWord;
-	private boolean isWin;
+	private String currentWord; //The word currently being guessed
+	private String correctSoFar; //How much of the word that is guessed. 
+	private Sounds appl; //Applauds.
+	private Sounds sayWord; //The sound of the current word. 
+	private boolean isWin; //Keeping track if the word is correctly guessed. 
+	private int wrongGuesses; //Number of wrong guesses on current letter. 
 	
 	public Game() {
 		
@@ -37,12 +38,17 @@ public class Game {
 	
 	public void checkLetter (String letter) {
 		
+//		Checks if letter is correct and (if so) if word is complete
 		if (letter.equalsIgnoreCase(currentWord.substring(correctSoFar.length(), correctSoFar.length()+1))) {
+//			Add correctly guessed letter to string with correct guess so far. 
 			correctSoFar += currentWord.substring(correctSoFar.length(), correctSoFar.length()+1);
+//			Reset wrongGuesses
+			wrongGuesses = 0;
 			if (correctSoFar.equalsIgnoreCase(currentWord)) {
 				isWin = true;
 			}
-			
+		} else {
+			wrongGuesses++; //Add to wrong guesses
 		}
 		
 	}
@@ -76,6 +82,14 @@ public class Game {
 		if ( sayWord != null) {
 			sayWord.closeClip();
 		}	
+	}
+	
+	public int getWrongGuesses () {
+		return wrongGuesses;
+	}
+	
+	public String getCurrentWord () {
+		return currentWord;
 	}
 
 
