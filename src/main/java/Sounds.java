@@ -14,6 +14,7 @@ public class Sounds {
 	
 	/*	This class creates sounds from the resources folder. The constructor takes the 
 	 *  name of the file as a string. 
+	 *  https://stackoverflow.com/questions/10144210/java-jar-file-use-resource-errors-uri-is-not-hierarchical
 	 */
 	
 	protected URL url;
