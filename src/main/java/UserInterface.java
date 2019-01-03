@@ -23,7 +23,7 @@ public class UserInterface extends JFrame {
 //	Components 
 	private JButton quitGame;
 	private JButton playWord;
-	private JButton getNextWord;
+	private JButton startOrSkip;
 	private JLabel [] alphabet;
 	private Border border = new LineBorder(Color.black, 2);
 	private Border noBorder = new LineBorder(Color.LIGHT_GRAY, 2);
@@ -67,8 +67,8 @@ public class UserInterface extends JFrame {
 		playWord = new JButton("Spela upp ordet"); 
 		keysAndLabels.add(playWord);
 		playWord.setEnabled(false);
-		getNextWord = new JButton("Få nytt ord");
-		keysAndLabels.add(getNextWord);
+		startOrSkip = new JButton("Starta spelet");
+		keysAndLabels.add(startOrSkip);
 		progress = new JLabel(""); 
 		progress.setFont(font);
 		upDateProgress();
@@ -80,8 +80,9 @@ public class UserInterface extends JFrame {
 		
 //		Add listeners
 		playWord.addActionListener(e -> game.playWord());
-		getNextWord.addActionListener(e -> getNewWord());
+		startOrSkip.addActionListener(e -> startGameorSkipWord()); //TODO: JC Consider removing and only usin present word
 		quitGame.addActionListener(e -> quitGame());
+		
 		
 		
 //		Final settings
@@ -160,14 +161,14 @@ public class UserInterface extends JFrame {
 		
 //		Change status of buttons
 		playWord.setEnabled(false);
-		getNextWord.setEnabled(true);
+//		startOrSkip.setEnabled(true);
 		game.playApplause();
 		presentWord();
 		
 		if (!game.moreWords()) {
 			progress.setText("No more words");
 			game.closeCurrentClip();
-			getNextWord.setEnabled(false);
+			startOrSkip.setEnabled(false);
 		}
 
 	}
@@ -178,16 +179,27 @@ public class UserInterface extends JFrame {
 		game.getNewWord();
 		upDateProgress();
 		playWord.setEnabled(true);
-		getNextWord.setEnabled(false);
+//		startOrSkip.setEnabled(false);
+	}
+	
+	public void startGameorSkipWord() {
+		if (game.getCurrentWord() == null ) { //No currentWord. This is the first round 
+			startOrSkip.setText("Hoppa över");
+			getNewWord();
+		} else {
+			game.markedAsSkipped();
+			getNewWord();
+		}
 	}
 	
 	public void presentWord () {
-//		The player spelled the word and gets the word presented again. 
+//		The player spelled the word correctly and gets the word presented again. 
 		String html = "<html><body><h1 style=\"font-size:300%;\">";
 		html += game.getWordSoFar().toUpperCase();
 		html += "</h1></body></html>";
 		game.playWord();
 		JOptionPane.showMessageDialog(null, html, "Du klarade ordet", JOptionPane.PLAIN_MESSAGE);
+		getNewWord();
 	}
 	
 	public void quitGame() {

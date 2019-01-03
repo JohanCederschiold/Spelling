@@ -1,4 +1,8 @@
-import java.util.Scanner;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class Game {
 	
@@ -9,6 +13,7 @@ public class Game {
 	private Sounds sayWord; //The sound of the current word. 
 	private boolean isWin; //Keeping track if the word is correctly guessed. 
 	private int wrongGuesses; //Number of wrong guesses on current letter. 
+	private String skippedFile = "skipped.txt";
 	
 	public Game() {
 		
@@ -91,6 +96,24 @@ public class Game {
 	public String getCurrentWord () {
 		return currentWord;
 	}
+	
+	public void markedAsSkipped () {
+
+		/*  The file is created in the projects folder since it's not a resource per see. The intent of the textfile is to 
+		 *  mark words the user wants to skip to be able so refine the chosen words. 
+		 */
+		
+		try {
+			PrintWriter write = new PrintWriter(new BufferedWriter(new FileWriter(new File(skippedFile),true)));
+			write.println(currentWord);
+			write.close();
+		} catch (IOException e) {
+			System.out.println("Could not save");
+			e.printStackTrace();
+		}
+		
+	}
+	
 
 
 }
