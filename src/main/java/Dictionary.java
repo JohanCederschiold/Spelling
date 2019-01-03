@@ -1,5 +1,9 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,7 +21,7 @@ public class Dictionary {
 	
 //	Constructor - Converts file, reads words from file and adds to arraylist.
 	public Dictionary () {
-		convertFile();
+//		convertFile();
 		words = readWords();
 
 	}
@@ -48,7 +52,7 @@ public class Dictionary {
 	private void convertFile () {
 		
 		try {
-			file = new File(path.toURI());
+			file = new File(getClass().getClassLoader().getResource("word.txt").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
@@ -58,15 +62,30 @@ public class Dictionary {
 //	Reads words from textfile and adds them to array 
 //	This is only done once (when instantiating the Dictionary).
 	private List<String> readWords () {
+		
 		List<String> readWords = new ArrayList<>();
+			
+		InputStream in = getClass().getClassLoader().getResourceAsStream("words.txt");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+		
+		while (true) {
+			String textWord = "";
+			try {
+				textWord = reader.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (textWord == null ) {
+				break;
+			} else {
+				readWords.add(textWord);
+			}
+		}
+		System.out.println(readWords.size());
 		
 		try {
-			Scanner fileReader = new Scanner(file);
-			while (fileReader.hasNextLine()) {
-				readWords.add(fileReader.nextLine());
-			}
-	
-		} catch (FileNotFoundException e) {
+			reader.close();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
