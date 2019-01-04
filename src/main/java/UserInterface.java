@@ -196,6 +196,7 @@ public class UserInterface extends JFrame {
 		html += "</h1></body></html>";
 		game.playWord();
 		JOptionPane.showMessageDialog(null, html, "Du klarade ordet", JOptionPane.PLAIN_MESSAGE);
+		System.out.println(game.getWithoutFaults());
 		getNewWord();
 	}
 	

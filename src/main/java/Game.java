@@ -11,6 +11,7 @@ public class Game {
 	private String correctSoFar; //How much of the word that is guessed. 
 	private boolean isWin; //Keeping track if the word is correctly guessed. 
 	private int wrongGuesses; //Number of wrong guesses on current letter. 
+	private boolean withoutFaults; //No wrong guesses on current Word. 
 	private String skippedFile = "skipped.txt";
 	
 	public Game() {
@@ -26,6 +27,7 @@ public class Game {
 		
 //		Reset win (i.e. the word is not correctly guessed). Also reset feedback string and get new random word. 
 		isWin = false;
+		withoutFaults = true;
 		correctSoFar = "";
 		currentWord = dictionary.getRandomWord();
 
@@ -50,6 +52,7 @@ public class Game {
 			}
 		} else {
 			wrongGuesses++; //Add to wrong guesses
+			withoutFaults = false;
 		}
 		
 	}
@@ -86,6 +89,10 @@ public class Game {
 	
 	public String getCurrentWord () {
 		return currentWord;
+	}
+	
+	public boolean getWithoutFaults () {
+		return withoutFaults;
 	}
 	
 	public void markedAsSkipped () {
