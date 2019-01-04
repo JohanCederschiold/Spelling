@@ -28,6 +28,7 @@ public class UserInterface extends JFrame {
 	private Border hintBorder = new LineBorder(Color.GREEN, 2);
 	private Font font = new Font("Arial Black", Font.BOLD, 18);
 	private JLabel progress;
+	private ImageIcon goldStar = new ImageIcon(getClass().getClassLoader().getResource("gold_star.png"));
 	
 //	Containers
 	private JPanel letterPanel;
@@ -195,8 +196,11 @@ public class UserInterface extends JFrame {
 		html += game.getWordSoFar().toUpperCase();
 		html += "</h1></body></html>";
 		game.playWord();
-		JOptionPane.showMessageDialog(null, html, "Du klarade ordet", JOptionPane.PLAIN_MESSAGE);
-		System.out.println(game.getWithoutFaults());
+		if (game.getWithoutFaults()) {
+			JOptionPane.showMessageDialog(null, html, "Du klarade ordet", JOptionPane.PLAIN_MESSAGE, goldStar);
+		} else {
+			JOptionPane.showMessageDialog(null, html, "Du klarade ordet", JOptionPane.PLAIN_MESSAGE);
+		}
 		getNewWord();
 	}
 	
