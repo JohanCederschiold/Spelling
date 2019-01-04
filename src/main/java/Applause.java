@@ -4,6 +4,7 @@ public class Applause extends Sounds implements Runnable {
 	
 	/*	The class extends Sounds and makes the applause a separate thread to avoid
 	 * 	"pauses" in the program. 
+	 * 	TODO: Change name of this class to reflect it's true purpose. 
 	 */
 	
 	Thread thread = new Thread(this);

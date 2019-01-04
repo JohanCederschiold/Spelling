@@ -1,7 +1,13 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -11,13 +17,10 @@ public class Dictionary {
 	
 //	Instancevariables
 	private List<String> words;
-	private URL path = getClass().getClassLoader().getResource("words.txt");
-	private File file;
 	
 	
 //	Constructor - Converts file, reads words from file and adds to arraylist.
 	public Dictionary () {
-		convertFile();
 		words = readWords();
 
 	}
@@ -44,29 +47,41 @@ public class Dictionary {
 	}
 	
 
-//	Make a uri path from the txt file in the resources folder. 
-	private void convertFile () {
-		
-		try {
-			file = new File(path.toURI());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-	}
 	
-	
-//	Reads words from textfile and adds them to array 
-//	This is only done once (when instantiating the Dictionary).
+	/*		Reads words from textfile and adds them to array
+	 * 		This is only done once (when instantiating the Dictionary).
+	 * 		The textfile needs to be handled as a stream due to jar packaging. 
+	 * 		See: https://stackoverflow.com/questions/20389255/reading-a-resource-file-from-within-jar
+	 */
 	private List<String> readWords () {
+		
 		List<String> readWords = new ArrayList<>();
+			
+		InputStream in = getClass().getClassLoader().getResourceAsStream("words.txt");
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new InputStreamReader(in, "UTF8"));
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		
+		while (true) {
+			String textWord = "";
+			try {
+				textWord = reader.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (textWord == null ) {
+				break;
+			} else {
+				readWords.add(textWord);
+			}
+		}
 		
 		try {
-			Scanner fileReader = new Scanner(file);
-			while (fileReader.hasNextLine()) {
-				readWords.add(fileReader.nextLine());
-			}
-	
-		} catch (FileNotFoundException e) {
+			reader.close();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
