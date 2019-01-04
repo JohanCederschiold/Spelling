@@ -17,13 +17,10 @@ public class Dictionary {
 	
 //	Instancevariables
 	private List<String> words;
-	private URL path = getClass().getClassLoader().getResource("words.txt");
-	private File file;
 	
 	
 //	Constructor - Converts file, reads words from file and adds to arraylist.
 	public Dictionary () {
-//		convertFile();
 		words = readWords();
 
 	}
@@ -50,19 +47,6 @@ public class Dictionary {
 	}
 	
 
-//	Make a uri path from the txt file in the resources folder. 
-	private void convertFile () {
-		
-		try {
-			file = new File(getClass().getClassLoader().getResource("word.txt").toURI());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-//	Reads words from textfile and adds them to array 
-//	This is only done once (when instantiating the Dictionary).
 	
 	/*		Reads words from textfile and adds them to array
 	 * 		This is only done once (when instantiating the Dictionary).
@@ -94,7 +78,6 @@ public class Dictionary {
 				readWords.add(textWord);
 			}
 		}
-//		System.out.println(readWords.size());
 		
 		try {
 			reader.close();
