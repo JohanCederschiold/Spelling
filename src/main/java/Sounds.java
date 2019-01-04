@@ -10,7 +10,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class Sounds {
+public class Sounds implements Runnable {
 	
 	/*	This class creates sounds from the resources folder. The constructor takes the 
 	 *  name of the file as a string. 
@@ -21,6 +21,7 @@ public class Sounds {
 	protected URL url;
 	protected AudioInputStream ais;
 	protected Clip clip;
+	Thread thread = new Thread(this);
 	
 	public Sounds (String word) {
 		
@@ -50,28 +51,41 @@ public class Sounds {
 		
 	}
 	
-	public void playClip () {
-		
+	@Override
+	public void run () {
+		clip.start();
+		long sleeptime = clip.getMicrosecondLength();
 		try {
-			Thread.sleep(500);
+			Thread.sleep(sleeptime / 1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 
-		clip.start();
-		
-//		This method "resets" the clip to zero. 
-		clip.setMicrosecondPosition(0);
-
+		clip.stop();
 	}
 	
-	public void closeClip () {
-//		The method is called when a resource is open to close it. 
-		if (clip.isOpen()) {
-			clip.close();
-		}
+//	public void playClip () {
+//		
+//		try {
+//			Thread.sleep(500);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//
+//		clip.start();
+//		
+////		This method "resets" the clip to zero. 
+//		clip.setMicrosecondPosition(0);
+//
+//	}
 	
-	}
+//	public void closeClip () {
+////		The method is called when a resource is open to close it. 
+//		if (clip.isOpen()) {
+//			clip.close();
+//		}
+//	
+//	}
 	
 
 }

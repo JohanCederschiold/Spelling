@@ -55,8 +55,8 @@ public class Game {
 	}
 	
 	public void playWord () {
-		Applause word = new Applause(currentWord);
-		word.playClip();
+		Sounds word = new Sounds(currentWord);
+		word.thread.start();
 	}
 	
 //	Get the current status of the guessed word. 
@@ -70,7 +70,7 @@ public class Game {
 	}
 	
 	public void playApplause () {
-		Applause applause = new Applause();
+		Sounds applause = new Sounds("applause");
 		applause.thread.start();
 	}
 	
