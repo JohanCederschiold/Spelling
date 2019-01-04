@@ -6,7 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.BorderFactory;
+//import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
+//import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
 public class UserInterface extends JFrame {
@@ -167,7 +167,7 @@ public class UserInterface extends JFrame {
 		
 		if (!game.moreWords()) {
 			progress.setText("No more words");
-			game.closeCurrentClip();
+//			game.closeCurrentClip();
 			startOrSkip.setEnabled(false);
 		}
 
@@ -207,7 +207,7 @@ public class UserInterface extends JFrame {
 		String [] customOptions = {"Ja tack", "Nej fortsätt spela"};
 		int choice = JOptionPane.showOptionDialog(null, "Vill du avsluta?", "Avsluta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, customOptions, customOptions[1] );
 		if (choice == 0 ) {
-			game.closeCurrentClip();
+//			game.closeCurrentClip();
 			System.exit(0);
 		}
 		

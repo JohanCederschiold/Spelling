@@ -23,7 +23,7 @@ public class Sounds {
 	
 	public Sounds (String word) {
 		
-		createUrl(word);
+		createUrl(word.toLowerCase());
 		
 		try {
 			ais = AudioSystem.getAudioInputStream(url);

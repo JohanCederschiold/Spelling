@@ -4,8 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -61,12 +63,23 @@ public class Dictionary {
 	
 //	Reads words from textfile and adds them to array 
 //	This is only done once (when instantiating the Dictionary).
+	
+	/*		Reads words from textfile and adds them to array
+	 * 		This is only done once (when instantiating the Dictionary).
+	 * 		The textfile needs to be handled as a stream due to jar packaging. 
+	 * 		See: https://stackoverflow.com/questions/20389255/reading-a-resource-file-from-within-jar
+	 */
 	private List<String> readWords () {
 		
 		List<String> readWords = new ArrayList<>();
 			
 		InputStream in = getClass().getClassLoader().getResourceAsStream("words.txt");
-		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new InputStreamReader(in, "UTF8"));
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
 		
 		while (true) {
 			String textWord = "";
@@ -81,7 +94,7 @@ public class Dictionary {
 				readWords.add(textWord);
 			}
 		}
-		System.out.println(readWords.size());
+//		System.out.println(readWords.size());
 		
 		try {
 			reader.close();
