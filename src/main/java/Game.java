@@ -12,7 +12,7 @@ public class Game {
 	private boolean isWin; //Keeping track if the word is correctly guessed. 
 	private int wrongGuesses; //Number of wrong guesses on current letter. 
 	private boolean withoutFaults; //No wrong guesses on current Word. 
-	private String skippedFile = "skipped.txt";
+	private String skippedFile = "skipped.txt"; //File that saves the words the player chooses to skip. 
 	
 	public Game() {
 		
