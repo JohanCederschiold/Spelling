@@ -2,6 +2,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -15,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-public class UserInterface extends JFrame {
+public class UserInterface extends JFrame  {
 	
 	
 //	Components 
@@ -34,6 +37,7 @@ public class UserInterface extends JFrame {
 	private JPanel letterPanel;
 	private JPanel keysAndLabels;
 	
+	
 //	Gamecomponents
 	private String [] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
 			"N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Å", "Ä", "Ö"	};
@@ -50,6 +54,11 @@ public class UserInterface extends JFrame {
 		setLayout(new BorderLayout());
 		add(letterPanel = new JPanel(), BorderLayout.CENTER);
 		add(keysAndLabels = new JPanel(), BorderLayout.NORTH);
+		
+		setFocusable(true);
+		requestFocus();
+		addKeyListener(kl);
+		
 		letterPanel.setPreferredSize(new Dimension(1700, 600));
 		alphabet = new JLabel [letters.length];
 		
@@ -78,8 +87,8 @@ public class UserInterface extends JFrame {
 		
 		
 //		Add listeners
-		playWord.addActionListener(e -> game.playWord());
-		startOrSkip.addActionListener(e -> startGameorSkipWord()); //TODO: JC Consider removing and only usin present word
+		playWord.addActionListener(e -> sayWord());
+		startOrSkip.addActionListener(e -> startGameorSkipWord()); 
 		quitGame.addActionListener(e -> quitGame());
 		
 		
@@ -118,8 +127,33 @@ public class UserInterface extends JFrame {
 						giveHint();
 					}
 				}
-			}	
+			}
+			requestFocus();
 		}; 
+	};
+	
+
+	
+	KeyListener kl = new KeyAdapter () {
+		
+		
+		public void keyReleased (KeyEvent e) {
+			if (e.getKeyCode() != KeyEvent.VK_ENTER) {
+				String myGuess = "";
+				myGuess += e.getKeyChar();
+				game.checkLetter(myGuess);
+				upDateProgress();
+//				Check if the game is won.
+				if (game.getIsWin()) {
+					upDateProgress();
+					gameWon();
+				} else {
+					if (game.getWrongGuesses() > 2 ) {
+						giveHint();
+					}
+				}	
+			}
+		}
 	};
 	
 	public void upDateProgress () {
@@ -188,6 +222,7 @@ public class UserInterface extends JFrame {
 			game.markedAsSkipped();
 			getNewWord();
 		}
+		requestFocus();
 	}
 	
 	public void presentWord () {
@@ -211,6 +246,7 @@ public class UserInterface extends JFrame {
 		if (choice == 0 ) {
 			System.exit(0);
 		}
+		requestFocus();
 		
 	}
 	
@@ -223,6 +259,11 @@ public class UserInterface extends JFrame {
 			}
 		}
 
+	}
+	
+	public void sayWord () {
+		game.playWord();
+		requestFocus();
 	}
 	
 	
