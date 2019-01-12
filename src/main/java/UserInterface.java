@@ -1,7 +1,9 @@
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -11,6 +13,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,11 +29,14 @@ public class UserInterface extends JFrame  {
 	private JButton playWord;
 	private JButton startOrSkip;
 	private JLabel [] alphabet;
+	private JLabel playerScore;
 	private Border border = new LineBorder(Color.black, 2);
 	private Border noBorder = new LineBorder(Color.LIGHT_GRAY, 2);
 	private Border hintBorder = new LineBorder(Color.GREEN, 2);
 	private Font font = new Font("Arial Black", Font.BOLD, 18);
 	private JLabel progress;
+	private JComboBox choosePlayer;
+//	private Player [] players;
 	private ImageIcon goldStar = new ImageIcon(getClass().getClassLoader().getResource("gold_star.png"));
 	
 //	Containers
@@ -72,6 +78,12 @@ public class UserInterface extends JFrame  {
 		
 		
 //		Add buttons & components
+		choosePlayer = new JComboBox(game.getPlayerNames());
+		keysAndLabels.add(choosePlayer);
+		playerScore = new JLabel();
+		playerScore.setFont(font);
+		upDatePoints();
+		keysAndLabels.add(playerScore);
 		playWord = new JButton("Spela upp ordet"); 
 		keysAndLabels.add(playWord);
 		playWord.setEnabled(false);
@@ -90,6 +102,7 @@ public class UserInterface extends JFrame  {
 		playWord.addActionListener(e -> sayWord());
 		startOrSkip.addActionListener(e -> startGameorSkipWord()); 
 		quitGame.addActionListener(e -> quitGame());
+		choosePlayer.addActionListener(e -> changePlayer());
 		
 		
 		
@@ -99,8 +112,6 @@ public class UserInterface extends JFrame  {
 		setVisible(true);
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-		
 	}
 	
 	MouseListener l = new MouseAdapter () {
@@ -197,6 +208,9 @@ public class UserInterface extends JFrame  {
 	
 	public void gameWon () {
 		
+		game.givePlayerPoints();
+		upDatePoints();
+		
 //		Change status of buttons
 		playWord.setEnabled(false);
 //		startOrSkip.setEnabled(true);
@@ -271,6 +285,18 @@ public class UserInterface extends JFrame  {
 	public void sayWord () {
 		game.playWord();
 		requestFocus();
+	}
+	
+	public void changePlayer () {
+		
+		int choice = choosePlayer.getSelectedIndex();
+		game.changePlayer(choice);
+		upDatePoints();
+
+	}
+	
+	public void upDatePoints () {
+		playerScore.setText(String.format("%05d", game.getCurrentPlayerScore()));
 	}
 	
 	
