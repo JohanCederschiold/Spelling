@@ -138,6 +138,11 @@ public class UserInterface extends JFrame  {
 		
 		
 		public void keyReleased (KeyEvent e) {
+//			
+//			for (int i = 0 ; i < letters.length ; i++ ) {
+//				alphabet[i].setBorder(noBorder);
+//			}
+//			
 			if (e.getKeyCode() != KeyEvent.VK_ENTER) {
 				String myGuess = "";
 				myGuess += e.getKeyChar();
@@ -252,6 +257,8 @@ public class UserInterface extends JFrame  {
 	
 	public void giveHint () {
 //		This method will give the player at hint. 
+		
+//		TODO Fix borderprobem when using keyboard.
 		String letterToHighlight = game.getCurrentWord().substring(game.getWordSoFar().length(), game.getWordSoFar().length() + 1).toUpperCase();
 		for (int i = 0 ; i < letters.length ; i++) {
 			if (letters[i].equals(letterToHighlight)) {
