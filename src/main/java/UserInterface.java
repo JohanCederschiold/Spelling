@@ -149,11 +149,11 @@ public class UserInterface extends JFrame  {
 		
 		
 		public void keyReleased (KeyEvent e) {
-//			
-//			for (int i = 0 ; i < letters.length ; i++ ) {
-//				alphabet[i].setBorder(noBorder);
-//			}
-//			
+			
+			for (int i = 0 ; i < letters.length ; i++ ) {
+				alphabet[i].setBorder(noBorder);
+			}
+			
 			if (e.getKeyCode() != KeyEvent.VK_ENTER) {
 				String myGuess = "";
 				myGuess += e.getKeyChar();
@@ -279,7 +279,6 @@ public class UserInterface extends JFrame  {
 				alphabet[i].setBorder(hintBorder);
 			}
 		}
-
 	}
 	
 	public void sayWord () {
