@@ -3,7 +3,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -18,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
@@ -35,13 +35,14 @@ public class UserInterface extends JFrame  {
 	private Border hintBorder = new LineBorder(Color.GREEN, 2);
 	private Font font = new Font("Arial Black", Font.BOLD, 18);
 	private JLabel progress;
-	private JComboBox choosePlayer;
-//	private Player [] players;
+	private JTextArea previousWords;
+	private JComboBox<String> choosePlayer;
 	private ImageIcon goldStar = new ImageIcon(getClass().getClassLoader().getResource("gold_star.png"));
 	
 //	Containers
 	private JPanel letterPanel;
 	private JPanel keysAndLabels;
+	private JPanel wordList;
 	
 	
 //	Gamecomponents
@@ -60,12 +61,13 @@ public class UserInterface extends JFrame  {
 		setLayout(new BorderLayout());
 		add(letterPanel = new JPanel(), BorderLayout.CENTER);
 		add(keysAndLabels = new JPanel(), BorderLayout.NORTH);
+		add(wordList = new JPanel(), BorderLayout.EAST);
 		
 		setFocusable(true);
 		requestFocus();
 		addKeyListener(kl);
 		
-		letterPanel.setPreferredSize(new Dimension(1700, 600));
+		letterPanel.setPreferredSize(new Dimension(1100, 600));
 		alphabet = new JLabel [letters.length];
 		
 //		Add letters
@@ -96,6 +98,9 @@ public class UserInterface extends JFrame  {
 		quitGame = new JButton("Avsluta spelet");
 		quitGame.setBackground(Color.RED);
 		keysAndLabels.add(quitGame);
+		previousWords = new JTextArea(20,25);
+		previousWords.setBorder(border);
+		wordList.add(previousWords);
 		
 		
 //		Add listeners
@@ -208,18 +213,19 @@ public class UserInterface extends JFrame  {
 	
 	public void gameWon () {
 		
-		game.givePlayerPoints();
-		upDatePoints();
+//		Is called when the players has correctly entered all letters	
 		
-//		Change status of buttons
-		playWord.setEnabled(false);
-//		startOrSkip.setEnabled(true);
+		game.givePlayerPoints(); //Gives the current player the points for the word. 
+		previousWords.append(game.getCurrentWord() + "\n"); //Add previous word to list
+		upDatePoints(); //Update the JLabel with the current players points. 
+		
+		playWord.setEnabled(false); //Hide button to read word
 		game.playApplause();
-		presentWord();
+		presentWord(); //Show the player the complete word.
 		
+//		If dictionary has run out of words
 		if (!game.moreWords()) {
 			progress.setText("No more words");
-//			game.closeCurrentClip();
 			startOrSkip.setEnabled(false);
 		}
 
@@ -295,7 +301,7 @@ public class UserInterface extends JFrame  {
 	}
 	
 	public void upDatePoints () {
-		playerScore.setText(String.format("%05d", game.getCurrentPlayerScore()));
+		playerScore.setText(String.format("Player points: %05d", game.getCurrentPlayerScore()));
 	}
 	
 	
