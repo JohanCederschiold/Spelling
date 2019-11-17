@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -36,6 +37,7 @@ public class UserInterface extends JFrame  {
 	private Font font = new Font("Arial Black", Font.BOLD, 18);
 	private JLabel progress;
 	private JTextArea previousWords;
+	private JScrollPane scrollPane;
 	private JComboBox<String> choosePlayer;
 	private ImageIcon goldStar = new ImageIcon(getClass().getClassLoader().getResource("gold_star.png"));
 	
@@ -100,7 +102,8 @@ public class UserInterface extends JFrame  {
 		keysAndLabels.add(quitGame);
 		previousWords = new JTextArea(20,25);
 		previousWords.setBorder(border);
-		wordList.add(previousWords);
+		scrollPane = new JScrollPane(previousWords);
+		wordList.add(scrollPane);
 		
 		
 //		Add listeners
