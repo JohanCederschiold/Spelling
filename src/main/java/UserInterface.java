@@ -299,6 +299,7 @@ public class UserInterface extends JFrame  {
 		
 		int choice = choosePlayer.getSelectedIndex();
 		game.changePlayer(choice);
+		previousWords.setText("");
 		upDatePoints();
 
 	}
